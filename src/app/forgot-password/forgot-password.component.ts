@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 })
 export class ForgotPasswordComponent {
 
-  email : String = "";
+  email : string = "";
 
   constructor( private userService: UserService,
                private router: Router)
