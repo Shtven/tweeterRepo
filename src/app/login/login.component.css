@@ -1,0 +1,83 @@
+body {
+  background-color: #0099ff;
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 0;
+  color: white;
+}
+
+.login-container {
+  max-width: 360px;
+  margin: 80px auto;
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.login-container h2 {
+  margin-bottom: 20px;
+  font-size: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.login-container .cancel {
+  font-size: 14px;
+  color: #00ffcc;
+  text-decoration: none;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.form-group input {
+  padding: 10px;
+  border-radius: 6px;
+  border: none;
+  background-color: #e8f4fc;
+  color: #000;
+  font-size: 15px;
+  outline: none;
+}
+
+button {
+  background-color: #00e291;
+  color: white;
+  padding: 10px;
+  border: none;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 2px 6px #00000033;
+}
+
+button:hover {
+  background-color: #00c07a;
+  transform: scale(1.03);
+}
+
+.form-links {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.form-links a {
+  color: #00ffcc;
+  text-decoration: none;
+}
+
+.form-links a:hover {
+  text-decoration: underline;
+}

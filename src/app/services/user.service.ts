@@ -3,68 +3,78 @@ import { Credential } from '../models/user/Credential'
 import { User } from '../models/user/User'
 import { Token } from '../models/user/Token'
 
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { Observable, throwError } from 'rxjs';
+import { retry, catchError } from 'rxjs/operators';
+
+import {  map } from 'rxjs/operators';
+
+
 @Injectable({
   providedIn: 'root'
 })
+
+
 export class UserService {
 
-  constructor() { }
+  apiURL = 'http://localhost:8080/';
 
-  postLogin(myCredential: Credential): Token {
 
-    console.log("email ... " + myCredential.email);
-    console.log("password ... " + myCredential.password);
+  constructor(
+    private http: HttpClient,
+    private router: Router
+  )
+  {
+
+  }
+
+  httpOptions = {
+  headers: new HttpHeaders({
+    'Content-Type': 'application/json'
+  })
+};
+
+  errorMessage = "";
+
+  postLogin(myCredential: Credential) {
+
+
+    const body = {
+             username: myCredential.username,
+             password : myCredential.password
+          };
+
+    console.log(body)
 
     var myToken = new Token();
 
-    // call fake api
-    if ( (myCredential.email == "adsoft@live.com.mx") &&
-	 (myCredential.password == "123"))
-    {
-       myToken.id = "0001";
-       myToken.user = "adsoft";
-       myToken.token = "gcp747844sdjksdkjsdkjds895850vb3";
-    }
-    else {
-       myToken.id = "0";
-       myToken.user = "bad credentials";
-       myToken.token = "";
-    }  
+    return this.http.post(this.apiURL + 'api/auth/signin', body, this.httpOptions)
+    .pipe(
+        catchError(this.handleError)
+    );
 
-    return myToken;
+  /*  .subscribe( (data : any)  => {
+        console.log(data);
+        myToken.accessToken = data.accessToken;
+     })
+*/
+
+   // return myToken;
   }
 
 
-  createUser(myUser: User): User {
+  createUser(myUser: User) {
 
-    console.log("email ... " + myUser.email);
-    console.log("password ... " + myUser.password);
+  const body = {
+    username: myUser.username,
+    email: myUser.email,
+    password: myUser.password,
+    roles: ['mod', 'user']
+  }
 
-    var myNewUser = new User();
-
-    // call fake api - create user
-    // Success
-    myNewUser.id = 0;
-
-    
-    if ( myNewUser.id != 0 )
-    {
-       console.log("Success " + myNewUser.id);
-       myNewUser.id = 1; // Success
-       myNewUser.email = myUser.email;
-       myNewUser.firstName = myUser.firstName;
-       myNewUser.lastName = myUser.lastName;
-       myNewUser.password = myUser.password;
-
-    }
-    else {
-       console.log("Error" + myNewUser.id);
-
-       myNewUser.id = 0; // Error
-    } 
-
-   return myNewUser;
- } 
+  return this.http.post(this.apiURL + 'api/auth/signup', body);
+  }
 
 
   resetPassword(email : String, password : String, token : String) : String {
@@ -75,10 +85,10 @@ export class UserService {
    this.destroyToken(token);
 
    return "" + isResetPassword;
-   
+
   }
 
-  sendUrlResetPassword(email: String): User {
+  sendUrlResetPassword(email: string): User {
 
     console.log("email ... " + email);
 
@@ -96,8 +106,8 @@ export class UserService {
 
   }
 
-  sendEmail(email: String, urlReset: String) : String {
-    
+  sendEmail(email: string, urlReset: String) : String {
+
    var emailSuccess = 0;
 
    // send email using SMTP (gmail, outlook..)
@@ -106,16 +116,16 @@ export class UserService {
    emailSuccess = 1;
    console.log('sent to :' + email);
    console.log('url : ' + urlReset);
-   
-   return "" + emailSuccess; 
-  
+
+   return "" + emailSuccess;
+
   }
   createUrlReset(email: String) : String {
     var myUrlReset = "" +
         this.createBaseURL() +
-        "/" +   
-        email +  
-        "/" + 
+        "/" +
+        email +
+        "/" +
         this.createTokenReset(email)
 
      return myUrlReset;
@@ -139,7 +149,7 @@ export class UserService {
   }
 
 
-  validateUser(email: String ) : User {
+  validateUser(email: string ) : User {
 
     // call fake query api by email
 
@@ -151,28 +161,26 @@ export class UserService {
        console.log("Success " + myUser.id);
        myUser.id = 1; // Success
        myUser.email = email;
-       myUser.firstName = "Adolfo";
-       myUser.lastName = "Centeno";
        myUser.password = "";
     }
     else {
        console.log("Error" + myUser.id);
 
        myUser.id = 0; // Error
-    } 
-    
+    }
+
     return myUser;
-  
+
   }
 
 
 
   validateToken(email: String, token: String) : String {
 
-    // call api to validate token 
+    // call api to validate token
     // success
     console.log('validating token ... ' + token);
-    
+
     var validToken = 1;
     return ""+validToken;
 
@@ -185,5 +193,23 @@ export class UserService {
     console.log('destroying token ... ' + token);
     return "" + istokenDestroyed;
   }
+
+
+ // Error handling
+
+  handleError(error : any) {
+    let errorMessage = '';
+    if(error.error instanceof ErrorEvent) {
+      // Get client-side error
+      errorMessage = error.error.message;
+    } else {
+      // Get server-side error
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+    }
+    console.log(errorMessage);
+    window.alert(errorMessage);
+    return throwError(errorMessage);
+ }
+
 
 }

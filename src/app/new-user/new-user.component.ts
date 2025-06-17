@@ -20,17 +20,23 @@ export class NewUserComponent {
  myNewUser = new User();
 
  createUser() {
-   console.log(this.myPayloadUser);
+  console.log(this.myPayloadUser);
 
- this.myNewUser = this.userService.createUser(
-        this.myPayloadUser
-       );
- 
- console.log(this.myNewUser);
+  this.userService.createUser(this.myPayloadUser).subscribe({
+    next: (res: any) => {
+      console.log('Usuario creado:', res);
 
- if (this.myNewUser.id != 0)
+
+      this.myNewUser = res;
+
+      if (this.myNewUser && this.myNewUser.id != 0) {
         this.router.navigate(['/login']);
-
- } 
+      }
+    },
+    error: (err) => {
+      console.error('Error al crear usuario:', err);
+    }
+  });
+}
 
 }

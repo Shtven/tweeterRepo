@@ -1,1 +1,57 @@
-<p>home works!</p>
+<div class="layout">
+  <!-- Sidebar izquierda simplificada -->
+  <aside class="sidebar">
+    <div class="user-info">
+      <strong>{{ username }}</strong>
+      <button (click)="logout()">Cerrar sesión</button>
+    </div>
+  </aside>
+
+  <!-- Contenido central -->
+  <main class="feed">
+    <div class="tweet-box">
+      <textarea [(ngModel)]="tweetText" placeholder="¿Qué está pasando?"></textarea>
+      <button (click)="addTweet()">Postear</button>
+    </div>
+
+    <div class="tweets">
+      <div class="tweet" *ngFor="let tweet of tweets">
+        <strong>{{ tweet.postedBy }}</strong>
+        <p>{{ tweet.tweet }}</p>
+       <div class="reaction-buttons">
+  <button *ngFor="let tipo of tiposReaccion"
+        [ngClass]="{'seleccionado': tweet.reactionSelected === tipo}"
+        [disabled]="tweet.reactionSelected"
+        (click)="react(tweet, tipo)">
+  {{ getEmoji(tipo) }} {{ tweet.reactionCounts?.[tipo] || 0 }}
+</button>
+
+  
+</div>
+<button (click)="toggleComentarios(tweet.id)" class="btn-comentar">
+  {{ comentariosVisibles[tweet.id] ? 'Ocultar' : 'Ver' }} comentarios
+</button>
+
+<!-- Sección de comentarios visible -->
+<div *ngIf="comentariosVisibles[tweet.id]" class="comentarios-container">
+  <div *ngFor="let comment of comentariosPorTweet[tweet.id]" class="comentario">
+    <span class="autor">{{ comment.userAuthor }}:</span>
+    <span class="contenido">{{ comment.comment }}</span>
+  </div>
+
+  <div class="comentario-nuevo">
+    <input type="text"
+           placeholder="Escribe un comentario..."
+           [(ngModel)]="nuevoComentario[tweet.id]"
+           class="input-comentario" />
+
+    <button (click)="comentar(tweet.id)" class="btn-comentar">Comentar</button>
+  </div>
+</div>
+
+
+
+      </div>
+    </div>
+  </main>
+</div>
