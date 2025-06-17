@@ -1,0 +1,192 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #0099ff;
+  color: white;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 240px 1fr; /* ❌ Elimina la 3ra columna */
+  height: 100vh;
+}
+
+/* Sidebar izquierda */
+.sidebar {
+  background-color: #000;
+  border-right: 1px solid #222;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  border-radius: 20px; /* 🎯 <- esto redondea el sidebar */
+  margin: 20px 10px 20px 20px; 
+  min-height: 30vh; /* para mantener la altura */
+}
+
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.user-info strong {
+  font-size: 16px;
+  color: #fff;
+}
+
+.user-info button {
+  background-color: #1d9bf0;
+  border: none;
+  padding: 10px;
+  border-radius: 20px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.user-info button:hover {
+  background-color: #0a7cc9;
+}
+
+/* Feed central */
+.feed {
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.tweet-box {
+  background-color: #111;
+  padding: 16px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.tweet-box textarea {
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 16px;
+  resize: none;
+}
+
+.tweet-box button {
+  margin-top: 10px;
+  background-color: #1d9bf0;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.tweets .tweet {
+  background-color: #111;
+  margin-bottom: 16px;
+  padding: 12px;
+  border-radius: 10px;
+}
+
+/* Estilo contenedor de las reacciones */
+.reaction-buttons {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+/* Botones base */
+.reaction-buttons button {
+  background-color: #f0f2f5;
+  border: none;
+  padding: 8px 12px;
+  font-size: 18px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.1s;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+/* Hover suave */
+.reaction-buttons button:hover:not(:disabled) {
+  background-color: #e0e0e0;
+  transform: scale(1.05);
+}
+
+/* Reacción seleccionada */
+.reaction-buttons button.seleccionado {
+  background-color: #1da1f2;
+  color: white;
+  font-weight: bold;
+}
+
+/* Botón deshabilitado (otras reacciones tras seleccionar una) */
+.reaction-buttons button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.comentarios-container {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #222;
+  border-radius: 8px;
+  color: #eee;
+}
+
+.comentario {
+  margin-bottom: 8px;
+  padding: 6px 8px;
+  border-left: 4px solid #007bff;
+  background-color: #2c2c2c;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.autor {
+  font-weight: bold;
+  color: #00d4ff;
+}
+
+.contenido {
+  margin-left: 6px;
+  color: #ccc;
+}
+
+.comentario-nuevo {
+  display: flex;
+  margin-top: 10px;
+  gap: 8px;
+}
+
+.input-comentario {
+  flex: 1;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+  background-color: #333;
+  color: #fff;
+}
+
+.input-comentario::placeholder {
+  color: #888;
+}
+
+.btn-comentar {
+  padding: 6px 14px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+
+.btn-comentar:hover {
+  background-color: #0056b3;
+}
